@@ -2,3 +2,4 @@ node_modules
 npm-debug.log
 bundle.js.map
 .DS_Store
+where-am-i/
