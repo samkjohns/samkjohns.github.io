@@ -30,38 +30,39 @@
 	}
       }
 
-      function playLine(line) {
- 	var msg = new SpeechSynthesisUtterance(readableLine(line));
-	speechSynthesis.speak(msg);	
-      }
+    function playLine(line) {
+      console.log(line);
+	  var msg = new SpeechSynthesisUtterance(readableLine(line));
+	  speechSynthesis.speak(msg);	
+    }
 
-      document.addEventListener('DOMContentLoaded', function () {
-	var start = document.getElementById('start'),
-	    stop  = document.getElementById('stop'),
-	    dictIframe = document.getElementById('dictionary'),
-	    rawDict = dictIframe.contentWindow.document.body.childNodes[0].innerHTML,
-	    dictLines = rawDict.split("\n"),
-	    currentWord = 0;
+    document.addEventListener('DOMContentLoaded', function () {
+      var dictIframe = document.getElementById('dictionary');
+      dictIframe.onload = function () {
+        var start = document.getElementById('start'),
+            stop  = document.getElementById('stop'),
+            rawDict = dictIframe.contentWindow.document.body.childNodes[0].innerHTML,
+            dictLines = rawDict.split("\n"),
+            currentWord = 0;
 
-	debugger;
+        start.addEventListener('click', play);
+        stop.addEventListener('click', pause);
 
-	start.addEventListener('click', play);
-	stop.addEventListener('click', pause);
+        var interval;
+        function play(evt) {
+          if (interval) { return; }
+          interval = setInterval(function () {
+            playLine(dictLines[currentWord]);
+            currentWord++;
+          }, 500);
+        }
 
-	var interval;
-	function play(evt) {
-	  if (interval) { return; }
-	  interval = setInterval(function () {
-	    playLine(dictLines[currentWord]);
-	    currentWord++;
-	  }, 500);
-	}
-
-	function pause(evt) {
-	  interval && clearInterval(interval);
-	  interval = null;
-	}
-      });
+        function pause(evt) {
+          interval && clearInterval(interval);
+          interval = null;
+        }
+      };
+    });
     </script>
   </head>
 
