@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      #dictionary { display: none }
+    </style>
+
+    <script type="text/javascript">
+      function Entry(line) {
+        //var wordsInLine = line.split(' ');
+	//this.word = wordsInLine[0];
+	this.line = line;
+      }
+
+      var abbrevMap = {
+	"abbr. ": "abbreviation. ",
+	"n. ": "noun. ",
+	"v. ": "verb. ",
+	"adj. ": "adjective. ",
+	"adv. ": "adverb. ",
+      };
+
+      function readableLine(line) {
+	if (!line) { return; }
+	for (abbr in abbrevMap) {
+	  if (!line.hasOwnProperty(abbr)) { continue; }
+
+	  line.replace(abbr, abbrevMap[abbr]);
+	  line.replace("-" + abbr, abbrevMap[abbr]);
+	}
+      }
+
+      function playLine(line) {
+ 	var msg = new SpeechSynthesisUtterance(readableLine(line));
+	speechSynthesis.speak(msg);	
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+	var start = document.getElementById('start'),
+	    stop  = document.getElementById('stop'),
+	    dictIframe = document.getElementById('dictionary'),
+	    rawDict = dictIframe.contentWindow.document.body.childNodes[0].innerHTML,
+	    dictLines = rawDict.split("\n"),
+	    currentWord = 0;
+
+	debugger;
+
+	start.addEventListener('click', play);
+	stop.addEventListener('click', pause);
+
+	var interval;
+	function play(evt) {
+	  if (interval) { return; }
+	  interval = setInterval(function () {
+	    playLine(dictLines[currentWord]);
+	    currentWord++;
+	  }, 500);
+	}
+
+	function pause(evt) {
+	  interval && clearInterval(interval);
+	  interval = null;
+	}
+      });
+    </script>
+  </head>
+
+  <body>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+  
+    <iframe id="dictionary" src="./oed.txt"></iframe>
+  </body>
+</html>
