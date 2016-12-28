@@ -21,6 +21,7 @@
       };
 
       function readableLine(line) {
+	if (!line) { return; }
 	for (abbr in abbrevMap) {
 	  if (!line.hasOwnProperty(abbr)) { continue; }
 
@@ -38,7 +39,7 @@
 	var start = document.getElementById('start'),
 	    stop  = document.getElementById('stop'),
 	    dictIframe = document.getElementById('dictionary'),
-	    rawDict = dictIframe.innerHTML,
+	    rawDict = dictIframe.contentWindow.document.body.childNodes[0].innerHTML,
 	    dictLines = rawDict.split("\n"),
 	    currentWord = 0;
 
