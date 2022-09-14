@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<script type="text/javascript">
+  var intervalId = setInterval(function () {
+    if (typeof window.initMoatTracking !== 'function') return;
+
+    clearInterval(intervalId);
+
+    var adSlot = document.getElementById('adContainer');
+    window.initMoatTracking(adSlot, {
+      ids: {
+        moatClientLevel1: 'lite_tag_mobile_qa',
+        moatClientLevel2: 'lite',
+        moatClientLevel3: '1111',
+        moatClientLevel4: '1111',
+      }
+    });
+  }, 100);
+</script>
+</head>
+<body>
+  <div id="adContainer">
+    <img src="via.placeholder.com/300x250.jpg"></img>
+    <script type="text/javascript" src="https://z.moatads.com/gentagsamheader9999/moatad.js#"></script>
+  </div>
+</body>
+</html>
