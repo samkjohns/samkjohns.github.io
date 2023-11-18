@@ -1,0 +1,21 @@
+#app {
+  display: flex;
+}
+
+#view-container {
+  position: relative;
+}
+
+canvas {
+  border: 1px solid black;
+  position: absolute;
+  top: 50px;
+}
+
+#canvas-pattern {
+  visibility: hidden;
+}
+
+#canvas2 {
+  cursor: pointer;
+}
